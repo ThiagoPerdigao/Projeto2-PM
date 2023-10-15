@@ -1,149 +1,193 @@
-import java.util.HashMap;
-import java.util.Scanner;
 
-interface Operacao {
-    double consultarSaldo();
-    void depositar(double valor);
-    boolean sacar(double valor);
-    boolean transferir(Conta destino, double valor);
+private static List<Cliente> clientes = new ArrayList<>();
+private static Scanner sc = new Scanner(System.in);
+
+public static void main(String[] args) {
+    int opcao;
+
+    do {
+        System.out.println("\n==== Menu do XuBank ====");
+        System.out.println("1. Cadastrar cliente");
+        System.out.println("2. Abrir conta");
+        System.out.println("3. Depositar em uma conta");
+        System.out.println("4. Sacar de uma conta");
+        System.out.println("5. Ver visão da diretoria");
+        System.out.println("0. Sair");
+        System.out.print("Opção: ");
+        opcao = sc.nextInt();
+
+        switch (opcao) {
+            case 1:
+                cadastrarCliente();
+                break;
+            case 2:
+                abrirConta();
+                break;
+            case 3:
+                depositarConta();
+                break;
+            case 4:
+                sacarConta();
+                break;
+            case 5:
+                visaoDiretoria();
+                break;
+            case 0:
+                System.out.println("Saindo do sistema...");
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+    } while (opcao != 0);
+
 }
 
-abstract class Conta implements Operacao {
+private static void cadastrarCliente() {
+    System.out.println("\n==== Cadastro de Cliente ====");
+
+    System.out.print("Nome: ");
+    String nome = sc.next();
+
+    System.out.print("CPF: ");
+    String cpf = sc.next();
+
+    System.out.print("Senha: ");
+    String senha = sc.next();
+
+    System.out.print("Tipo de cliente (Regular/Vip/Gold): ");
+    String tipo = sc.next();
+
+    Cliente cliente;
+    switch (tipo.toLowerCase()) {
+        case "vip":
+            cliente = new ClienteVip(nome, cpf, senha);
+            break;
+        case "gold":
+            cliente = new ClienteGold(nome, cpf, senha);
+            break;
+        default:
+            cliente = new ClienteRegular(nome, cpf, senha);
+            break;
+    }
+
+    clientes.add(cliente);
+    System.out.println("Cliente cadastrado com sucesso!");
+}
+
+private static void abrirConta() {
+    System.out.println("\n==== Abertura de Conta ====");
+
+    System.out.print("CPF do cliente: ");
+    String cpf = sc.next();
     
-
-    @Override
-    public double consultarSaldo() {
-        return this.saldo;
+    Cliente cliente = buscarClientePorCPF(cpf);
+    if(cliente == null) {
+        System.out.println("Cliente não encontrado!");
+        return;
     }
 
-    @Override
-    public void depositar(double valor) {
-        this.saldo += valor;
+    System.out.print("Tipo de conta (Corrente/Poupança/Investimento/RendaFixa): ");
+    String tipo = sc.next();
+
+    System.out.print("Número da conta: ");
+    String numero = sc.next();
+
+    System.out.print("Saldo inicial: ");
+    double saldo = sc.nextDouble();
+
+    Conta conta;
+    switch (tipo.toLowerCase()) {
+        case "corrente":
+            conta = new ContaCorrente(cliente, numero, saldo);
+            break;
+        case "poupanca":
+            conta = new ContaPoupanca(cliente, numero, saldo);
+            break;
+        case "investimento":
+            System.out.print("Rendimento diário (%): ");
+            double rendimentoDiario = sc.nextDouble();
+            System.out.print("Taxa de imposto (%): ");
+            double imposto = sc.nextDouble();
+            System.out.print("Taxa de depósito (%): ");
+            double taxa = sc.nextDouble();
+            conta = new Investimento(cliente, numero, saldo, rendimentoDiario, imposto, taxa);
+            break;
+        case "rendafixa":
+            System.out.print("Taxa de rendimento (%): ");
+            double taxaRendimento = sc.nextDouble();
+            conta = new RendaFixa(cliente, numero, saldo, taxaRendimento);
+            break;
+        default:
+            System.out.println("Tipo de conta inválido!");
+            return;
     }
 
-    @Override
-    public boolean sacar(double valor) {
-        if (this.saldo >= valor) {
-            this.saldo -= valor;
-            return true;
-        } else {
-            System.out.println("Saldo insuficiente.");
-            return false;
-        }
-    }
-
-    @Override
-    public boolean transferir(Conta destino, double valor) {
-        if (this.saldo >= valor) {
-            this.saldo -= valor;
-            destino.depositar(valor);
-            return true;
-        } else {
-            System.out.println("Saldo insuficiente.");
-            return false;
-        }
-    }
+    cliente.adicionarConta(conta);
+    System.out.println("Conta criada com sucesso!");
 }
 
-public class BankMenu {
+private static void depositarConta() {
+    System.out.println("\n==== Depósito em Conta ====");
 
-    private static HashMap<String, Conta> contas = new HashMap<>();
-    private static HashMap<String, Cliente> clientes = new HashMap<>();
-    private static Scanner scanner = new Scanner(System.in);
+    System.out.print("Número da conta: ");
+    String numero = sc.next();
 
-    public static void main(String[] args) {
-
-        int opcao;
-        do {
-            System.out.println("\n=== Menu do Banco ===");
-            System.out.println("1. Criar Cliente");
-            System.out.println("2. Criar Conta");
-            System.out.println("3. Consultar Saldo");
-            System.out.println("4. Depositar em Conta");
-            System.out.println("5. Sacar de Conta");
-            System.out.println("6. Transferir Entre Contas");
-            System.out.println("7. Sair");
-            System.out.print("Escolha uma opção: ");
-            opcao = scanner.nextInt();
-            scanner.nextLine();  
-
-            switch (opcao) {
-                case 1:
-                    criarCliente();
-                    break;
-                case 2:
-                    criarConta();
-                    break;
-                case 3:
-                    consultarSaldo();
-                    break;
-                case 4:
-                    depositar();
-                    break;
-                case 5:
-                    sacar();
-                    break;
-                case 6:
-                    transferir();
-                    break;
-                case 7:
-                    System.out.println("Até logo!");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (opcao != 7);
+    Conta conta = buscarContaPorNumero(numero);
+    if(conta == null) {
+        System.out.println("Conta não encontrada!");
+        return;
     }
 
-    private static void criarCliente() {
-        System.out.print("Digite o nome do cliente: ");
-        String nome = scanner.nextLine();
+    System.out.print("Valor do depósito: ");
+    double valor = sc.nextDouble();
 
-        System.out.print("Digite o CPF do cliente: ");
-        String cpf = scanner.nextLine();
+    conta.deposito(valor);
+    System.out.println("Depósito realizado com sucesso!");
+}
 
-        Cliente cliente = new Cliente(nome, cpf);
-        clientes.put(cpf, cliente);
-        System.out.println("Cliente criado com sucesso!");
+private static void sacarConta() {
+    System.out.println("\n==== Saque em Conta ====");
+
+    System.out.print("Número da conta: ");
+    String numero = sc.next();
+
+    Conta conta = buscarContaPorNumero(numero);
+    if(conta == null) {
+        System.out.println("Conta não encontrada!");
+        return;
     }
 
-    private static void criarConta() {
-        System.out.print("Digite o CPF do cliente: ");
-        String cpf = scanner.nextLine();
+    System.out.print("Valor do saque: ");
+    double valor = sc.nextDouble();
 
-        Cliente cliente = clientes.get(cpf);
-        if (cliente != null) {
-            System.out.println("1. Conta Corrente");
-            System.out.println("2. Conta Poupança");
-            System.out.println("3. Renda Fixa");
-            int tipoConta = scanner.nextInt();
+    conta.saque(valor);
+    System.out.println("Saque realizado com sucesso!");
+}
 
-            System.out.println("Digite o número da conta: ");
-            String numeroConta = scanner.next();
+private static void visaoDiretoria() {
+    System.out.println("\n==== Visão da Diretoria ====");
+    System.out.println("Total em custódia em Contas Correntes: " + VisaoDiretoria.calcularTotalCustodiaContaCorrente(clientes));
+    System.out.println("Total em custódia em Contas Poupança: " + VisaoDiretoria.calcularTotalCustodiaContaPoupanca(clientes));
+    System.out.println("Saldo médio de todas as contas: " + VisaoDiretoria.calcularSaldoMedio(clientes));
+}
 
-            System.out.println("Digite o saldo inicial: ");
-            double saldoInicial = scanner.nextDouble();
-
-            Conta conta = null;
-            switch (tipoConta) {
-                case 1:
-                    conta = new ContaCorrente(cliente, numeroConta, saldoInicial);
-                    break;
-                case 2:
-                    conta = new ContaPoupanca(cliente, numeroConta, saldoInicial);
-                    break;
-                case 3:
-                    System.out.println("Digite a taxa de rendimento:");
-                    double taxaRendimento = scanner.nextDouble();
-                    conta = new RendaFixa(cliente, numeroConta, saldoInicial, taxaRendimento);
-                    break;
-            }
-
-            if (conta != null) {
-                contas.put(numeroConta, conta);
-                System.out.println("Conta criada com sucesso!");
-            }
-        } else {
-            System.out.println("Cliente não encontrado!");
+private static Cliente buscarClientePorCPF(String cpf) {
+    for(Cliente cliente : clientes) {
+        if(cliente.getCpf().equals(cpf)) {
+            return cliente;
         }
     }
+    return null;
+}
+
+private static Conta buscarContaPorNumero(String numero) {
+    for(Cliente cliente : clientes) {
+        for(Conta conta : cliente.getContas()) {
+            if(conta.getNumero().equals(numero)) {
+                return conta;
+            }
+        }
+    }
+    return null;
+}
+}
