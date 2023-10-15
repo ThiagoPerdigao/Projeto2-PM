@@ -60,8 +60,8 @@ abstract class Conta {
         }
     }
 
-    public void transferencia(){
-        String numeroContaOrigem, numeroContaDestino;
+    public void transferencia(Conta contaDestino){
+        String numeroContaDestino;
         Double valorTransferencia, saldoContaDestino;
         Scanner sc = new Scanner(System.in);
         
@@ -69,8 +69,8 @@ abstract class Conta {
         numeroContaDestino = sc.nextLine();
         System.out.println("Digite o valor da transferencia:");
         valorTransferencia = sc.nextDouble();
-        
-        if(numeroContaDestino == Conta contaDestinno.getNumeroConta()){
+
+        if(numeroContaDestino.equals(contaDestino.getNumeroConta())){
             saldoContaDestino = contaDestino.getSaldo();
             contaDestino.setSaldo(saldoContaDestino+valorTransferencia);
         }
