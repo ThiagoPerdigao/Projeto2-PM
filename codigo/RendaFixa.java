@@ -18,12 +18,13 @@ class RendaFixa extends Conta {
     }
 
     public void calcularRendimento() {
-        // Implemente a lógica para calcular o rendimento com base na taxaRendimento
         double saldoAtual = getSaldo();
-        double rendimento = saldoAtual * (taxaRendimento / 100.0);
-        saldoAtual += rendimento;
+        double rendimentoAnual = saldoAtual * 0.05; // 5% ao ano
+        double rendimentoDiario = rendimentoAnual / 365; // Assumindo 365 dias em um ano
+        saldoAtual += rendimentoDiario;
         setSaldo(saldoAtual);
     }
+    
 
     @Override
     public void saque() {
