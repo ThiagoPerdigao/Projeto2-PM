@@ -4,6 +4,10 @@ class ContaCorrente extends Conta {
 
     private Double taxaMensal = 20.0;
 
+
+    public ContaCorrente(){
+        
+    }
     
     public ContaCorrente(Cliente cliente, String numeroConta, Double saldo){
         super(cliente, numeroConta, saldo);

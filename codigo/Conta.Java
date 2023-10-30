@@ -3,7 +3,10 @@ import java.util.Scanner;
 abstract class Conta {
     protected Cliente cliente;
     protected String numeroConta;
-    protected Double saldo;
+    protected Double saldo = 0.0;
+
+    public Conta(){
+    }
 
     public Conta(Cliente cliente, String numeroConta, Double saldo){
         this.cliente = cliente;
@@ -37,23 +40,25 @@ abstract class Conta {
 
     public void deposito(){
         Double valorDeposito;
-        Double saldo;
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite o valor que deseja depositar:");
         valorDeposito = sc.nextDouble();
         saldo = getSaldo();
         setSaldo(saldo+valorDeposito);
+        System.out.println("Valor depositado: " + valorDeposito);
     }
 
     public void saque(){
         Double valorSaque;
-        Double saldo;
+        
         Scanner sc = new Scanner(System.in);
+          
         System.out.println("Digite o valor que deseja sacar:");
         valorSaque = sc.nextDouble();
         saldo = getSaldo();
         if(valorSaque <= saldo){
             setSaldo(saldo-valorSaque);
+            System.out.println("Valor sacado com sucesso!. Agora voce possui R$" + consultarSaldo() + "Em sua conta bancaria");
         }
         else{
             System.out.println("Saldo insuficiente.");
@@ -80,4 +85,12 @@ abstract class Conta {
 
         
     }
+    
+    public double consultarSaldo() {
+    	return getSaldo();
+    }
+    
+    
+    
+    
 }

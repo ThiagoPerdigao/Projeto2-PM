@@ -5,6 +5,9 @@ class ClienteGold extends Cliente {
     private static final int PONTOS_MENSALIDADE = 10;
     private static final int PONTOS_POR_MIL_REAIS = 10;
 
+    public ClienteGold(){
+    }
+
     public ClienteGold(String nome, String cpf, String senha) {
         super(nome, cpf, senha);
         this.pontosFidelidade = 0;
@@ -21,4 +24,5 @@ class ClienteGold extends Cliente {
     public int getPontosFidelidade() {
         return pontosFidelidade;
     }
+
 }

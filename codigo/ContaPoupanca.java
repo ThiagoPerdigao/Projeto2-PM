@@ -4,6 +4,11 @@ class ContaPoupanca extends Conta {
     
     LocalDate data = LocalDate.now();
 
+    public ContaPoupanca(){
+
+        
+    }
+
     public ContaPoupanca(Cliente cliente, String numeroConta, Double saldo){
         super(cliente, numeroConta, saldo);
     }

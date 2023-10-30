@@ -7,6 +7,10 @@ abstract class Cliente {
     protected String senha;
     protected List<Conta> contas;
 
+    public Cliente(){
+        
+    }
+
     public Cliente(String nome, String cpf, String senha) {
         this.nome = nome;
         this.cpf = cpf;

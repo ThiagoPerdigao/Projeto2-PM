@@ -1,8 +1,11 @@
-import java.time.LocalDate;
 import java.util.Scanner;
 
 class RendaFixa extends Conta {
     private double taxaRendimento; // Taxa de rendimento contratada no momento da criação
+
+    public RendaFixa(){
+
+    }
 
     public RendaFixa(Cliente cliente, String numeroConta, double saldo, double taxaRendimento) {
         super(cliente, numeroConta, saldo);
@@ -51,7 +54,5 @@ class RendaFixa extends Conta {
         System.out.println("Saldo insuficiente.");
     }
 }
-
-
 
 }

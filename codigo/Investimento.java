@@ -6,6 +6,10 @@ class Investimento extends Conta {
     private double imposto;
     private double taxa;
 
+    public Investimento(){
+
+    }
+
     public Investimento(Cliente cliente, String numeroConta, double saldo, double rendimentoDiario, double imposto, double taxa) {
         super(cliente, numeroConta, saldo);
         this.rendimentoDiario = rendimentoDiario;
