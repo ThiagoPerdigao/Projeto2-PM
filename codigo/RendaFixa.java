@@ -1,8 +1,12 @@
 import java.util.Scanner;
 
+
+
 class RendaFixa extends Conta {
     private double taxaRendimento; // Taxa de rendimento contratada no momento da criação
-
+    double saldo = 0.0;
+    
+    
     public RendaFixa(){
 
     }
@@ -26,13 +30,14 @@ class RendaFixa extends Conta {
         double rendimentoDiario = rendimentoAnual / 365; // Assumindo 365 dias em um ano
         saldoAtual += rendimentoDiario;
         setSaldo(saldoAtual);
+        System.out.printf("Seu rendimento foi de R$" + "%.2f%n", rendimentoDiario);
     }
     
 
     @Override
     public void saque() {
     Double valorSaque;
-    Double saldo;
+    
     Scanner sc = new Scanner(System.in);
     System.out.println("Digite o valor que deseja sacar:");
     valorSaque = sc.nextDouble();
@@ -50,6 +55,7 @@ class RendaFixa extends Conta {
 
         // Atualiza o saldo
         setSaldo(saldo);
+        System.out.println("Seu saldo atual � de R$" + saldo);
     } else {
         System.out.println("Saldo insuficiente.");
     }

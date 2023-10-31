@@ -43,12 +43,14 @@ class Investimento extends Conta {
 
     public void calcularRendimentoDiario() {
     // Gere um valor de rendimento diário aleatório entre -1% e +1%
-    double rendimentoDiario = -1 + (new Random().nextDouble() * (1 - (-1)));
+    double rendimentoDiario = -1 + (new Random().nextDouble() * (1 + 1));
     
     double saldoAtual = getSaldo();
     double rendimento = saldoAtual * (rendimentoDiario / 100.0);
     saldoAtual += rendimento;
     setSaldo(saldoAtual);
+    
+    System.out.printf("Seu investimento atual � de R$" + "%.2f%n", saldoAtual);
 }
 
     @Override

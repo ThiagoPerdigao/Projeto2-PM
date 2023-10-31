@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -6,19 +7,18 @@ public class MenuTerminal {
         Scanner scanner = new Scanner(System.in);
 
         String opcao;
+        Cliente cliente = null;
         Investimento investimento = new Investimento();
         ContaCorrente contaCorrente = new ContaCorrente();
         ContaPoupanca poupanca = new ContaPoupanca();
         RendaFixa rendaFixa = new RendaFixa();
-        
-        
 
         do {
             System.out.println("=== Menu do XuBank ===");
             System.out.println("1. === Consulta de saldo ===");
-            System.out.println("2. === Depósito ===");
+            System.out.println("2. === Dep�sito ===");
             System.out.println("3. === Saque ===");
-            System.out.println("4. === Transferências ===");
+            System.out.println("4. === Transfer�ncias ===");
             System.out.println("5. === Adicionar cliente ===");
             System.out.println("6. === Adicionar ClienteGOLD ===");
             System.out.println("7. === Adicionar ClienteVIP ===");
@@ -32,8 +32,8 @@ public class MenuTerminal {
             
             
             
-            System.out.println("13. Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.println("14. Sair");
+            System.out.print("Escolha uma op��o: ");
             opcao = scanner.nextLine();
 
             switch (opcao) {
@@ -50,20 +50,20 @@ public class MenuTerminal {
                 	investimento.transferencia(investimento);
                     break;
                 case "5":
-                	System.out.println("---- SISTEMA DE CRIAÇÃO DE CONTA REGULAR ----");
+                	System.out.println("---- SISTEMA DE CRIACAO DE CONTA REGULAR ----");
                 	System.out.println("---- Qual nome do usuario ----");
                 	String nome = scanner.nextLine();
                 	System.out.println("---- Qual o CPF do usuario----");
                 	String cpf = scanner.nextLine();
                 	System.out.println("---- Qual a Senha do usuario----");
                 	String senha = scanner.nextLine();
-                	Cliente cliente = new ClienteRegular(nome, cpf, senha);
+                	Cliente clienteRegular = new ClienteRegular(nome, cpf, senha);
                 	
-                	cliente.adicionarConta(investimento);
+                	clienteRegular.adicionarConta(investimento);
                 	System.out.println("Usuario adicionado com exito!");
                     break;
                 case "6":
-                	System.out.println("---- SISTEMA DE CRIAÇÃO DE CONTA GOLD ----");
+                	System.out.println("---- SISTEMA DE CRIACAO DE CONTA GOLD ----");
                 	System.out.println("---- Qual nome do usuario ----");
                 	nome = scanner.nextLine();
                 	System.out.println("---- Qual o CPF do usuario----");
@@ -76,7 +76,7 @@ public class MenuTerminal {
                 	System.out.println("Usuario adicionado com exito!");
                 	break;
                 case "7":
-                	System.out.println("---- SISTEMA DE CRIAÇÃO DE CONTA VIP ----");
+                	System.out.println("---- SISTEMA DE CRIACAO DE CONTA VIP ----");
                 	System.out.println("---- Qual nome do usuario ----");
                 	nome = scanner.nextLine();
                 	System.out.println("---- Qual o CPF do usuario----");
@@ -105,14 +105,19 @@ public class MenuTerminal {
                 	rendaFixa.saque();
                     break;
                 case "13":
+                	System.out.println("Calcular Total Custodia Conta Corrente" + VisaoDiretoria.calcularTotalCustodiaContaCorrente(Arrays.asList(cliente)));
+                	System.out.println("Calcular Total Custodia Conta Poupanca" + VisaoDiretoria.calcularTotalCustodiaContaPoupanca(Arrays.asList(cliente)));
+                	System.out.println("Calcular Saldo Medio Todas Contas" + VisaoDiretoria.calcularSaldoMedioTodasContas(Arrays.asList(cliente)));
+                	System.out.println("Contar Clientes Com Saldo Negativo" + VisaoDiretoria.contarClientesComSaldoNegativo(Arrays.asList(cliente)));
+                	System.out.println("Encontrar Cliente Com Maior Saldo" + VisaoDiretoria.encontrarClienteComMaiorSaldo(Arrays.asList(cliente)));
+                	System.out.println("Encontrar Cliente Com Menor Saldo" + VisaoDiretoria.encontrarClienteComMenorSaldo(Arrays.asList(cliente)));
                 	break;
-                    ''
-                    
                 case "14":
                     System.out.println("Saindo...");
+                    System.out.println("Saiu com exito!");
                     break;
                 default:
-                    System.out.println("Opção inválida. Por favor, escolha uma opção válida.");
+                    System.out.println("Op��o inv�lida. Por favor, escolha uma op��o v�lida.");
             }
         } while (!opcao.equals("14"));
 

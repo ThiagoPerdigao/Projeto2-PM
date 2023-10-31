@@ -22,6 +22,7 @@ class ContaCorrente extends Conta {
             saldo =+ getSaldo();
             if(valorSaque <= saldo){
                 setSaldo(saldo-valorSaque);
+                System.out.printf("Saque no valor de R%" + "%.2f%n",valorSaque + " realizado com sucesso");
             }
             else{
                 System.out.println("Saldo insuficiente.");

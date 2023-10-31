@@ -21,7 +21,8 @@ class ContaPoupanca extends Conta {
             rendimento = (saldoTotal*(0.5))/100.0;
             saldoTotal += rendimento;
             setSaldo(saldoTotal);
+            
+            System.out.printf("Seu rendimento foi de R$" + "%.2f%n", rendimento);
         }
-        
     }
 }
